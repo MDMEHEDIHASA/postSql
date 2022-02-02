@@ -1,0 +1,38 @@
+CREATE TABLE teachers(
+    teacher_id SERIAL PRIMARY KEY,
+	first_name VARCHAR(50) NOT NULL,
+	last_name VARCHAR(50) NOT NULL,
+	homeroom_number VARCHAR(100) NOT NULL,
+	department VARCHAR(50) NOT NULL,
+	email VARCHAR(200) UNIQUE NOT NULL,
+	phone VARCHAR(200) UNIQUE NOT NULL
+
+);
+
+CREATE TABLE students(
+    student_id SERIAL PRIMARY KEY,
+	first_name VARCHAR(50) NOT NULL,
+	last_name VARCHAR(50) NOT NULL,
+	homeroom_number VARCHAR(100) NOT NULL,
+	phone VARCHAR(200) UNIQUE NOT NULL,
+	email VARCHAR(200) UNIQUE NOT NULL,
+	graduation INT NOT NULL
+);
+
+
+ALTER TABLE teachers
+ALTER COLUMN homeroom_number TYPE INT
+USING homeroom_number::integer;
+
+ALTER TABLE students
+ALTER COLUMN homeroom_number TYPE INT
+USING homeroom_number::integer;
+
+--Mark Watney (student_id=1) who has a phone number of 777-555-1234 and doesn't have an email. He graduates in 2035 and has 5 as a homeroom
+INSERT INTO students (first_name,last_name,homeroom_number,phone,email,graduation)
+VALUES ('Mehedi','Hasan',196,'+880 1745961777','mehedi@gmail.com',2022);
+
+INSERT INTO teachers (first_name,last_name,homeroom_number,department,email,phone)
+VALUES ('Mehedi','Hasan',296,'CSE','mehedi@gmail.com','+880 1745961777')
+
+SELECT * FROM teachers;

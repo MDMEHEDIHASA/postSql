@@ -1,0 +1,136 @@
+--CASE 
+SELECT customer_id,
+CASE
+   WHEN (customer_id <=100) THEN 'PREMIUM'
+   WHEN (customer_id BETWEEN 100 AND 200) THEN 'PLUS'
+   ELSE 'NORMAL'
+END AS customer_class
+FROM customer ORDER BY customer_id;
+
+
+SELECT customer_id,
+CASE
+    WHEN (customer_id<=50) THEN 'PREMIUM'
+	WHEN (customer_id BETWEEN 51 AND 100) THEN 'PLUS'
+	WHEN (customer_id BETWEEN 101 AND 200) THEN 'Second PLUS'
+	ELSE 'NORMAL'
+END AS customer_class
+FROM customer;
+
+
+SELECT customer_id,
+CASE customer_id
+  WHEN 2 THEN 'WINNER'
+  WHEN 5 THEN 'SECOND PLACE'
+  ELSE 'NORMAL'
+   
+END AS customer_class
+FROM customer;
+
+
+SELECT rental_rate,
+CASE rental_rate
+   WHEN 0.99 THEN 1
+   ELSE 0
+END AS number_of
+FROM film;
+
+
+
+SELECT
+SUM(CASE rental_rate
+   WHEN 0.99 THEN 1
+   ELSE 0
+END) AS number_of_bargins
+FROM film;
+
+
+SELECT
+SUM(CASE rental_rate
+   WHEN 0.99 THEN 1
+   ELSE 0
+END) AS bargins,
+SUM(CASE rental_rate
+   WHEN 2.99 THEN 1
+   ELSE 0
+END) AS regular,
+SUM(CASE rental_rate
+	   WHEN 4.99 THEN 1
+	   ELSE 0
+   END) AS premium
+FROM film;
+
+
+
+SELECT
+    SUM(CASE rental_rate 
+	WHEN 0.99 THEN 1
+	ELSE 0
+	END)AS TotalSUM,
+	ROUND(AVG(CASE rental_rate
+	    WHEN 4.99 THEN 1
+	    ELSE 0
+	    END),2) AS AVGResult
+FROM film;
+ilm;
+
+--CASE TASK
+SELECT DISTINCT(rating) FROM film;
+
+SELECT 
+SUM(CASE rating
+  WHEN 'R' THEN 1
+  ELSE 0
+END) AS Rrating,
+SUM(CASE rating
+  WHEN 'NC-17' THEN 1
+  ELSE 0
+END) AS Nrating,
+SUM(CASE rating
+  WHEN 'G' THEN 1
+  ELSE 0
+END) AS Grating,
+SUM(CASE rating
+  WHEN 'PG' THEN 1
+  ELSE 0
+END) AS PGrating,
+SUM(CASE rating
+  WHEN 'PG-13' THEN 1
+  ELSE 0
+END) AS PGrating13
+FROM film;
+--CASE TASK
+SELECT DISTINCT(rating) FROM film;
+
+SELECT 
+SUM(CASE rating
+  WHEN 'R' THEN 1
+  ELSE 0
+END) AS Rrating,
+SUM(CASE rating
+  WHEN 'NC-17' THEN 1
+  ELSE 0
+END) AS Nrating,
+SUM(CASE rating
+  WHEN 'G' THEN 1
+  ELSE 0
+END) AS Grating,
+SUM(CASE rating
+  WHEN 'PG' THEN 1
+  ELSE 0
+END) AS PGrating,
+SUM(CASE rating
+  WHEN 'PG-13' THEN 1
+  ELSE 0
+END) AS PGrating13
+FROM film;
+
+--COALESCE(discount,0)
+--CAST
+SELECT CAST('5' AS INTEGER);
+
+SELECT inventory_id FROM rental;
+SELECT char_length(CAST(inventory_id AS VARCHAR)) FROM rental;
+SELECT CAST(inventory_id AS INTEGER) FROM rental;
+
+

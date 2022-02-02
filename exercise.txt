@@ -1,0 +1,47 @@
+SELECT * FROM cd.facilities;
+SELECT * FROM cd.members;
+SELECT * FROM cd.bookings;
+
+SELECT name,membercost FROM cd.facilities  WHERE facid IN 
+(SELECT facid FROM cd.bookings AS book INNER JOIN cd.members as membr ON book.memid = membr.memid);
+
+SELECT * FROM cd.facilities AS fc
+WHERE  EXISTS
+(SELECT * FROM cd.bookings
+ AS book
+ WHERE fc.facid = book.facid
+ and fc.membercost
+>0);
+
+
+SELECT facid,membercost,monthlymaintenance
+FROM cd.facilities
+WHERE membercost > 0 AND (membercost<monthlymaintenance/50.0);
+
+SELECT * FROM  cd.facilities
+WHERE name LIKE 'Tennis%';
+
+SELECT * FROM  cd.facilities
+WHERE facid IN (1,5);
+
+
+SELECT * FROM cd.members WHERE joindate >= '2012-09-01';
+SELECT DISTINCT (surname) FROM cd.members ORDER BY surname LIMIT 10;
+SELECT MAX(joindate) AS latest_signup FROM cd.members;
+SELECT COUNT(*) FROM cd.facilities where guestcost >=10;
+
+SELECT * FROM cd.facilities;
+
+SELECT facid,SUM(slots) AS "TOTAL_SLOTS" FROM  cd.bookings
+WHERE starttime BETWEEN  '2012-09-01' AND  '2012-09-12'
+GROUP BY facid ORDER BY SUM(slots);
+
+SELECT facid,SUM(slots)AS total_slots FROM cd.bookings GROUP BY facid HAVING(SUM(slots) >1000);
+
+SELECT starttime as start, facilities.name FROM cd.facilities as facilities
+INNER JOIN cd.bookings as bookings
+ON facilities.facid = bookings.facid
+WHERE starttime='2012-09-21'
+
+
+

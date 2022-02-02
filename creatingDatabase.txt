@@ -1,0 +1,131 @@
+CREATE TABLE account(
+	user_id serial PRIMARY KEY,
+	user_name VARCHAR(50) UNIQUE NOT NULL,
+	password VARCHAR(50) NOT NULL,
+	email VARCHAR(250) UNIQUE NOT NULL,
+	created_on TIMESTAMP NOT NULL,
+	last_login TIMESTAMP
+);
+
+CREATE TABLE job(
+	job_id SERIAL PRIMARY KEY,
+	job_name VARCHAR(200) UNIQUE NOT NULL
+
+);
+
+CREATE TABLE account_job(
+	user_id INT REFERENCES account(user_id),
+	job_id INT REFERENCES job(job_id),
+	hire_date TIMESTAMP
+
+);
+
+--Multiple row insert
+INSERT INTO account (user_name,password,email,created_on)
+VALUES
+('Mehedi','password','mehedi@gmail.com',CURRENT_TIMESTAMP),
+('JOSE','password1','jose@gmail.com',CURRENT_TIMESTAMP);
+
+--single row insert
+INSERT INTO account (user_name,password,email,created_on)
+VALUES
+('MICHALE','password2','michale@gmail.com',CURRENT_TIMESTAMP);
+
+INSERT INTO job (job_name) VALUES ('Engnieer'),('ASTRONOT');
+
+SELECT * FROM job;
+
+INSERT INTO account_job (user_id,job_id,hire_date) 
+VALUES 
+(1,1,CURRENT_TIMESTAMP),
+(2,2,CURRENT_TIMESTAMP);
+
+SELECT * FROM account_job;
+
+SELECT account.user_id,user_name,job_name FROM account
+INNER JOIN account_job
+ON account_job.user_id = account.user_id
+INNER JOIN job
+ON job.job_id = account_job.job_id;
+
+
+INSERT INTO account_job (user_id,job_id,hire_date) 
+VALUES 
+(11,1,CURRENT_TIMESTAMP);
+
+
+--UPDATE
+SELECT * FROM account;
+UPDATE account set last_login=CURRENT_TIMESTAMP
+WHERE account.user_id = 1 RETURNING *;
+
+--FOR ALL ROWS
+SELECT * FROM account;
+UPDATE account set last_login=CURRENT_TIMESTAMP;
+UPDATE account set last_login=CURRENT_TIMESTAMP RETURNING user_name,password;
+
+SELECT * FROM account_job;
+
+--UPDATE BASED ON ANOTHER TABEL COLUMN
+UPDATE account_job set hire_date=account.created_on
+FROM account
+WHERE account_job.user_id = account.user_id 
+RETURNING *;
+
+--DELETE
+INSERT INTO job (job_id,job_name) VALUES (3,'CEO');
+SELECT * FROM job;
+DELETE FROM  job WHERE job_name = 'CEO' RETURNING *;
+
+--ALTER 
+CREATE TABLE information(
+	info_id SERIAL PRIMARY KEY,
+	title VARCHAR(500) NOT NULL,
+	person VARCHAR(50) NOT NULL UNIQUE
+	
+);
+
+SELECT * FROM information;
+
+ALTER TABLE information
+RENAME TO newInfo;
+
+SELECT * FROM information;--nothing exist in this name
+SELECT * FROM newInfo;
+
+ALTER TABLE newInfo
+RENAME COLUMN person
+TO people;
+
+SELECT * FROM newInfo;
+
+ALTER TABLE newInfo
+ALTER COLUMN people
+DROP NOT NULL;
+
+INSERT INTO newInfo(title) VALUES ('biology');
+SELECT * FROM newInfo;
+
+--DROP
+ALTER TABLE newInfo 
+DROP COLUMN IF EXISTS people;
+
+SELECT * FROM newInfo;
+
+--CHECK
+CREATE TABLE employees(
+	emp_id SERIAL PRIMARY KEY,
+	first_name VARCHAR(50) NOT NULL,
+	last_name VARCHAR(50) NOT NULL,
+	birthdate DATE CHECK(birthdate > '1900-01-01'),
+	hire_date DATE CHECK (hire_date > birthdate),
+	salary INT CHECK(salary > 0)
+);
+
+INSERT INTO employees (first_name,last_name,birthdate,hire_date,salary)
+VALUES ('Mehedi','Hasan','1900-01-10','2022-01-31',0);
+
+INSERT INTO employees (first_name,last_name,birthdate,hire_date,salary)
+VALUES ('Mehedi','Hasan','1900-01-10','2022-01-31',100);
+
+SELECT * FROM employees;
