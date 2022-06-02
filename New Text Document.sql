@@ -69,13 +69,14 @@ SUM(replacement_cost),
 ROUND(AVG(replacement_cost),2) FROM film;
 
 --Group BY
-SELECT customer_id FROM payment GROUP BY customer_id ORDER BY customer_id;
-SELECT customer_id,SUM(amount) FROM payment GROUP BY customer_id ORDER BY SUM(amount);
-SELECT customer_id,COUNT(amount) FROM payment GROUP BY customer_id ORDER BY COUNT(amount) DESC;
-SELECT customer_id,staff_id,SUM(amount) FROM payment 
+1.SELECT customer_id FROM payment GROUP BY customer_id ORDER BY customer_id;
+2.SELECT customer_id,SUM(amount) FROM payment GROUP BY customer_id ORDER BY SUM(amount);
+3.SELECT customer_id,COUNT(amount) FROM payment GROUP BY customer_id ORDER BY COUNT(amount) DESC;
+4.SELECT customer_id,staff_id,SUM(amount) FROM payment 
 GROUP BY customer_id,staff_id ORDER BY customer_id;
-SELECT payment_date FROM payment;
-SELECT DATE(payment_date),COUNT(amount) FROM payment 
+
+5.select first_name FROM customer where length(email)>15 GROUP BY first_name;
+6.SELECT DATE(payment_date),COUNT(amount) FROM payment 
 GROUP BY DATE(payment_date) ORDER BY COUNT(amount);
 
 --GROUP BY TASK
@@ -124,6 +125,11 @@ SELECT customer_id, SUM(amount) as Rental_price FROM payment GROUP BY customer_i
 SELECT customer.customer_id,customer.store_id,payment.customer_id AS payment_customer_id FROM customer
 INNER JOIN payment
 ON customer.customer_id = payment.customer_id;
+
+SELECT customer.customer_id,customer.first_name as cfs, payment.amount as pam  from payment
+INNER JOIN customer
+ON payment.customer_id = customer.customer_id
+WHERE payment.customer_id >5;
 
 SELECT payment_id,payment.customer_id,first_name FROM customer
 INNER JOIN payment
